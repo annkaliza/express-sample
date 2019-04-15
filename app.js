@@ -8,17 +8,14 @@ const bodyParser = require("body-parser");
 const app = express();
 const dbLayer = require("./config/db");
 
-const rootRouter = require("./routes/root");
+const pagesRouter = require("./routes/pages");
 const usersRouter = require("./routes/users");
 const numbersRouter = require("./routes/numbers");
 
 const port = 9000;
 
-
-
 app.set("view engine", "hbs");
 hbs.registerPartials(path.join(__dirname, "views/partials"));
-
 
 app.use(bodyParser.json({ limit: "150mb" }));
 app.use(
@@ -50,7 +47,7 @@ app.use((req, res, next) => {
 	next();
 });
 app.use("/users", usersRouter);
-app.use("/", rootRouter);
+app.use("/", pagesRouter);
 
 app.use("/numbers", numbersRouter);
 
