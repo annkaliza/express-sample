@@ -1,3 +1,4 @@
+<script>tinymce.init({ selector: '[name="content"]', plugins: "code image" });</script>
 {{#with page}}
 <form action="/{{pagekey}}/edit" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="pagekey" value="{{pagekey}}" />

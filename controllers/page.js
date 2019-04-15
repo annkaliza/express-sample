@@ -1,5 +1,6 @@
 const pageModel = require("../model/page");
 const navmenuModel = require("../model/navmenu");
+const { validationResult } = require("express-validator/check");
 
 module.exports = class {
 	static async getPage(pagekey) {
@@ -31,7 +32,8 @@ module.exports = class {
 			return res.render("page/edit", {
 				title: pd.title,
 				page: pd.page,
-				nav: pd.nav
+				nav: pd.nav,
+				errors: req.validationErrors
 			});
 		} else {
 			next();
@@ -40,11 +42,16 @@ module.exports = class {
 
 	//save method
 	static async save(pagekey, req, res, next) {
-		const title = req.body.title;
-		const content = req.body.content;
+		const errors = validationResult(req);
+		// console.log(errors.array());
+		if (!errors.isEmpty()) {
+			req.validationErrors = errors.array();
+		} else {
+			const title = req.body.title;
+			const content = req.body.content;
 
-		await pageModel.savePage(pagekey, title, content);
-
+			await pageModel.savePage(pagekey, title, content);
+		}
 		await this.edit(pagekey, req, res, next);
 	}
 };
