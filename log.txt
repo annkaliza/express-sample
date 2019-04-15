@@ -1,0 +1,1 @@
+::1	POST /users/2/edit	Error: Input file contains unsupported image format

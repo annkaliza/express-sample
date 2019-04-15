@@ -1,0 +1,19 @@
+{{#with user}}
+<form action="/users/{{userId}}/edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="userId" value="{{userId}}" />
+    <div>
+        <h2>{{username}}</h2>
+        <div>
+            {{#if hasImage}}
+            <img src="/inc/img/users/{{userId}}.png" />
+            <div>Replace profile image</div>
+            {{else}}
+            <div>Add a profile image</div>
+            {{/if}}
+            <input type="file" name="image" />
+        </div>
+        <div><input type="submit" value="Save" /></div>
+    </div>
+
+</form>
+{{/with}}

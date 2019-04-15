@@ -6,10 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{title}}</title>
-  <link type="text/css" rel="stylesheet" href="inc/style.css" />
+  <link type="text/css" rel="stylesheet" href="/inc/style.css" />
 </head>
 
 <body>
+  <header>
+    <a href="/home">
+      <img id="logo" src="/inc/img/logo.png" />
+    </a>
+  </header>
+  {{> navmenu}}
+  <h1>{{title}}</h1>
   {{{body}}}
 </body>
 
