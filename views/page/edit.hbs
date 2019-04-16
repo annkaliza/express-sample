@@ -1,17 +1,45 @@
 <script>tinymce.init({ selector: '[name="content"]', plugins: "code image" });</script>
 {{#with page}}
+
+{{#if pagekey}}
 <form action="/{{pagekey}}/edit" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="pagekey" value="{{pagekey}}" />
-    <div>
+    {{else}}
+    <form action="/new" method="post" enctype="application/x-www-form-urlencoded">
+        <div>
+            <div></div><label for="">Key</label>
+        </div>
+        <ul class="err">
+            {{#each ../errors.pagekey}}
+            <li>{{this}}</li>
+            {{/each}}
 
-        <div>
-            <label for="title">Title</label>
-            <input type="text" name="title" value="{{title}}" />
+        </ul>
+        <input type="text" name="pagekey" />
         </div>
+        {{/if}}
         <div>
-            <label for="content">Content</label>
-            <textarea name="content">{{content}}</textarea>
+            <div>
+
+                <label for="title">Title</label>
+                <ul class="err">
+                    {{#each ../errors.title}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+                <input type="text" name="title" value="{{title}}" />
+            </div>
+            <div>
+
+                <label for="content">Content</label>
+                <ul class="err">
+                    {{#each ../errors.content}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+                <textarea name="content">{{content}}</textarea>
+            </div>
+            <div><input type="submit" value="Save" /></div>
         </div>
-        <div><input type="submit" value="Save" /></div>
-</form>
-{{/with}}
+    </form>
+    {{/with}}

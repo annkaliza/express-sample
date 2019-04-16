@@ -25,15 +25,34 @@ module.exports = class {
 			next();
 		}
 	}
+
+	static async new(req, res) {
+		const errors = this.reError(req);
+		return res.render("page/edit", { page: {}, errors: errors });
+	}
+
+	static reError(req) {
+		const errors = {};
+		if (req.validationErrors) {
+			for (let err in req.validationErrors) {
+				let e = req.validationErrors[err];
+				errors[e.param] = errors[e.param] ? errors[e.param] : [];
+				errors[e.param].push(e.msg);
+			}
+		}
+		return errors;
+	}
+
 	static async edit(pageName, req, res, next) {
-		//pagedata = pd
 		let pd = await this.getPage(pageName);
+
+		const errors = this.reError(req);
 		if (pd) {
 			return res.render("page/edit", {
 				title: pd.title,
 				page: pd.page,
 				nav: pd.nav,
-				errors: req.validationErrors
+				errors: errors
 			});
 		} else {
 			next();
@@ -49,9 +68,15 @@ module.exports = class {
 		} else {
 			const title = req.body.title;
 			const content = req.body.content;
+			pagekey = req.body.pagekey;
 
 			await pageModel.savePage(pagekey, title, content);
 		}
-		await this.edit(pagekey, req, res, next);
+
+		if (pagekey) {
+			await this.edit(pagekey, req, res, next);
+		} else {
+			await this.new(req, res);
+		}
 	}
 };
